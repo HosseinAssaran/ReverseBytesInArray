@@ -12,6 +12,6 @@ For convert bitmap to printer spectra format:
 	 - Byte orientation : Horizontal
 	 - pixels/byte : 8
  2. Load image and save output.
- 3. use reverseByteInArray program to convert saved output in previous section to spectra compatible image.
+ 3. use reverseByteInArray program to convert saved output in previous section to spectra compatible logo header file.
 
 > Written By H.assaran
