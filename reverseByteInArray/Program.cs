@@ -111,8 +111,7 @@ namespace reverseByteInArray
 
         public static void unit_test()
         {
-             int i = 0;
-             for (i = 0; i < test_data.Length; i++)
+             for (int i = 0; i < test_data.Length; i++)
             {
                 test_data[i] = Program.revrseByte(test_data[i]);
                 if (i % 16 == 0)
@@ -126,10 +125,9 @@ namespace reverseByteInArray
         public static byte revrseByte(byte number)
         {
             byte reversed = 0;
-            int i;
             if (number != 0)
             {
-                for (i = 0; i < 8; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     if ((number & (1 << i)) != 0)
                         reversed |= (byte)(1 << (7 - i));
@@ -141,25 +139,27 @@ namespace reverseByteInArray
         static void Main(string[] args)
         {
             //test.unit_test();
-            string text;
-            string sPattern = "0x[0-9a-fA-F]{2}";
             if (args.Length != 1)
             {
-                Console.WriteLine("reverseByteInArray version 1.10");
+                Console.WriteLine("reverseByteInArray version 1.11");
                 Console.WriteLine("Usage : Convert a file with hex string to reversed in byte hex string");
                 Console.WriteLine("Format: reverseByteInArray filepath");
                 return;
             }
-            var fileStream = new FileStream(args[0], FileMode.Open, FileAccess.Read);
-            var newfile = Regex.Replace(args[0], @"(.*[\\\/])(.*)", @"$1reversed-$2");
+            string filePathPattern = @"(.*[\\\/])(.*)";
+            string newFilePathReplacePattern = @"$1reversed-$2";
+            var newfile = Regex.Replace(args[0], filePathPattern, newFilePathReplacePattern);
             using (StreamWriter fileConverted = new StreamWriter(newfile, false))
             {
                 fileConverted.WriteLine("const unsigned char spectra_logo [] = {");
+                var fileStream = new FileStream(args[0], FileMode.Open, FileAccess.Read);
                 using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
                 {
                     int i = 1;
+                    string text;
                     text = streamReader.ReadToEnd();
-                    var matches = Regex.Matches(text, sPattern);
+                    string byteStringPattern = "0x[0-9a-fA-F]{2}";
+                    var matches = Regex.Matches(text, byteStringPattern);
                     foreach (var match in matches)
                     {
 
